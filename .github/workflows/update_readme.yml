@@ -1,0 +1,44 @@
+name: Update Github Profile README
+
+on:
+  push:
+    branches: [ main ] # Trigger updates to main
+  schedule:
+    - cron: '0 0 */1 * *'  # Or run every 1 day
+  workflow_dispatch:  # Or on manual trigger
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    # - name: Install font
+    #   run: |
+    #     mkdir -p $HOME/.local/share/fonts
+    #     cp JetBrainsMonoNerdFont-Regular.ttf $HOME/.local/share/fonts/
+    #     fc-cache -f -v
+    
+    - name: Generate terminal image
+      run: |
+        python simplified.py
+        
+    - name: Update README
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'action@github.com'
+        git add terminal.png terminal.gif
+        git commit -m "Update terminal images" || echo "No changes to commit"
+        git push
