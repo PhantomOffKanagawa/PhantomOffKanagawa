@@ -25,11 +25,11 @@ jobs:
       run: |
         pip install -r requirements.txt
     
-    # - name: Install font
-    #   run: |
-    #     mkdir -p $HOME/.local/share/fonts
-    #     cp JetBrainsMonoNerdFont-Regular.ttf $HOME/.local/share/fonts/
-    #     fc-cache -f -v
+    - name: Install font
+      run: |
+        mkdir -p $HOME/.local/share/fonts
+        cp JetBrainsMonoNerdFont-Regular.ttf $HOME/.local/share/fonts/
+        fc-cache -f -v
     
     - name: Generate terminal image
       run: |
